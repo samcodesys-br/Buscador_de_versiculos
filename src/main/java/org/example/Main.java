@@ -1,10 +1,8 @@
 package org.example;
 
+import org.example.Facade.ApiFacade;
+
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.Scanner;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -19,20 +17,10 @@ public class Main {
             String word= input.nextLine().toLowerCase();
 
             String url="https://www.abibliadigital.com.br/api/verses/search";
+            String body="{ \"version\" : \"nvi\", \"search\" : \""+word+"\" }";
 
-            HttpClient client=HttpClient.newHttpClient();
-            HttpRequest request= HttpRequest
-                    .newBuilder()
-                    .header("version","nvi")
-                    .header("search",word)
-                    .uri(URI.create(url))
-                    .POST(HttpRequest.BodyPublishers.noBody())
-                    .build();
-
-
-            HttpResponse response=client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
-
+            ApiFacade facade=new ApiFacade();
+            System.out.println(facade.buscarVersiculos(url,word));
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
