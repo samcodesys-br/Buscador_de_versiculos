@@ -1,24 +1,24 @@
 package org.example.Adapter;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
-import org.example.Model.Verse;
 
 import java.io.IOException;
 import java.net.http.HttpResponse;
+import java.util.Map;
 
 public class JsonToVerseAdapter {
-    public Verse verse;
     public ObjectMapper objectMapper;
 
     public JsonToVerseAdapter(){
-        this.verse=new Verse();
         this.objectMapper=new ObjectMapper();
     }
 
 
-    public Verse convertToVerse(HttpResponse response) throws IOException {
-        verse=objectMapper.readValue(response.body().toString(),Verse.class);
-        System.out.println(verse.text);
-        return verse;
+    public Map<String, Object> convertToVerseList(HttpResponse response) throws IOException {
+        TypeReference<Map<String,Object>> typeRef=new TypeReference<Map<String,Object>>() {};
+        Map<String,Object> verseList=objectMapper.readValue(response.body().toString(),typeRef);
+        System.out.println(verseList.get("verses"));
+        return verseList;
     }
 }

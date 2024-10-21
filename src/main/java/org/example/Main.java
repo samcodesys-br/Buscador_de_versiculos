@@ -13,14 +13,10 @@ public class Main {
         try {
             System.out.println("Busca de versículos: ");
             System.out.println("> ");
-
             String word= input.nextLine().toLowerCase();
 
-            String url="https://www.abibliadigital.com.br/api/verses/search";
-            String body="{ \"version\" : \"nvi\", \"search\" : \""+word+"\" }";
-
             ApiFacade facade=new ApiFacade();
-            System.out.println(facade.buscarVersiculos(url,word));
+            facade.buscarVersiculos(word);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
